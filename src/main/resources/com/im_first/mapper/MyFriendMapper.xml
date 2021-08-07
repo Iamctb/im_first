@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.im_first.mapper.MyFriendMapper">
+  <resultMap id="BaseResultMap" type="com.im_first.pojo.MyFriend">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="my_user_id" jdbcType="VARCHAR" property="myUserId" />
+    <result column="my_friends_user_id" jdbcType="VARCHAR" property="myFriendsUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, my_user_id, my_friends_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_friends
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectOneByExample" resultMap="BaseResultMap" parameterType="com.im_first.pojo.MyFriend">
+    select
+    <include refid="Base_Column_List"/>
+    from my_friends
+    where my_user_id = #{myUserId,jdbcType=VARCHAR} and my_friends_user_id = #{myFriendsUserId,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from my_friends
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.im_first.pojo.MyFriend">
+    insert into my_friends (id, my_user_id, my_friends_user_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{myUserId,jdbcType=VARCHAR}, #{myFriendsUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.im_first.pojo.MyFriend">
+    insert into my_friends
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="myUserId != null">
+        my_user_id,
+      </if>
+      <if test="myFriendsUserId != null">
+        my_friends_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="myUserId != null">
+        #{myUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="myFriendsUserId != null">
+        #{myFriendsUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.im_first.pojo.MyFriend">
+    update my_friends
+    <set>
+      <if test="myUserId != null">
+        my_user_id = #{myUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="myFriendsUserId != null">
+        my_friends_user_id = #{myFriendsUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.im_first.pojo.MyFriend">
+    update my_friends
+    set my_user_id = #{myUserId,jdbcType=VARCHAR},
+      my_friends_user_id = #{myFriendsUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
